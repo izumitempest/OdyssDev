@@ -1,0 +1,6 @@
+flask
+flask-sqlalchemy
+flask-jwt-extended
+psycopg2-binary
+python-dotenv
+marshmallow
