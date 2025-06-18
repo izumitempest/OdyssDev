@@ -1,5 +1,6 @@
 from app.extensions import db
 from models.base import BaseModel
+from sqlalchemy.dialects.postgresql import UUID
 
 class Booking(BaseModel):
     __tablename__ = "bookings"
