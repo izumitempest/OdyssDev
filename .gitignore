@@ -24,3 +24,5 @@ dist/
 *.c
 # Ignore compiled Python files
 *.pyc   
+*.tgz
+Python-3.11.0
