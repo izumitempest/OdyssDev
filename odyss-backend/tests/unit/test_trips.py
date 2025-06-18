@@ -1,5 +1,5 @@
 import pytest
-from ...app import create_app
+from app import create_app
 from app.extensions import db
 from tests.factories import UserFactory, TripFactory
 from flask_jwt_extended import create_access_token

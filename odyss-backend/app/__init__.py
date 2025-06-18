@@ -27,4 +27,9 @@ def create_app(config_name=None):
     app.register_blueprint(auth_bp, url_prefix="/api/v1/auth")
     app.register_blueprint(trips_bp, url_prefix="/api/v1/trips")
     
+    # Health check endpoint
+    @app.route('/api/v1/auth/ping')
+    def ping():
+        return {"status": "ok"}, 200
+    
     return app
