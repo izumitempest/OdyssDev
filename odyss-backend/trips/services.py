@@ -11,7 +11,7 @@ class TripService:
             trip = Trip(
                 name=data["name"],
                 description=data.get("description"),
-                metadata=data.get("metadata", {}),
+                trip_metadata=data.get("trip_metadata", {}),
                 start_date=datetime.strptime(data["start_date"], "%Y-%m-%d"),
                 end_date=datetime.strptime(data["end_date"], "%Y-%m-%d"),
                 creator_id=user.id,

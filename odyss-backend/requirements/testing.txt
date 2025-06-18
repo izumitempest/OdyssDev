@@ -1,2 +1,3 @@
 pytest
 factory_boy
+faker==37.3.0

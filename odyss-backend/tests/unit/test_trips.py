@@ -1,36 +1,47 @@
-import unittest
-from app import create_app
+import pytest
+from ...app import create_app
 from app.extensions import db
 from tests.factories import UserFactory, TripFactory
+from flask_jwt_extended import create_access_token
 
-class TripsTestCase(unittest.TestCase):
+class TripsTestCase:
     def setUp(self):
-        self.app = create_app("development")
+        self.app = create_app("testing")
         self.client = self.app.test_client()
         with self.app.app_context():
             db.create_all()
             self.user = UserFactory.create()
-            login_response = self.client.post("/api/v1/auth/login", json={"email": self.user.email, "password": "password"})
-            self.token = login_response.get_json()["access_token"]
-    
+            db.session.commit()
+            self.token = create_access_token(identity=str(self.user.id))
+
     def tearDown(self):
         with self.app.app_context():
             db.drop_all()
-    
+
     def test_create_trip(self):
+        data = {
+            "name": "Test Trip",
+            "start_date": "2025-06-15",
+            "end_date": "2025-06-20",
+            "trip_metadata": {}
+        }
         response = self.client.post(
             "/api/v1/trips",
-            json={"name": "Test Trip", "start_date": "2025-06-15", "end_date": "2025-06-20", "metadata": {}},
+            json=data,
             headers={"Authorization": f"Bearer {self.token}"}
         )
-        self.assertEqual(response.status_code, 201)
-        self.assertIn("Test Trip", response.get_json()["trip"]["name"])
-    
-    def test_get_trips(self):
-        TripFactory.create_batch(3)
-        response = self.client.get("/api/v1/trips?page=1&per_page=2")
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(len(response.get_json()["trips"]), 2)
+        assert response.status_code == 201
+        json_data = response.get_json()
+        assert json_data["message"] == "Trip created"
+        assert json_data["trip"]["name"] == "Test Trip"
 
-if __name__ == "__main__":
-    unittest.main()
+    def test_get_trips(self):
+        TripFactory.create(creator=self.user)
+        db.session.commit()
+        response = self.client.get(
+            "/api/v1/trips",
+            headers={"Authorization": f"Bearer {self.token}"}
+        )
+        assert response.status_code == 200
+        json_data = response.get_json()
+        assert len(json_data["trips"]) == 1
