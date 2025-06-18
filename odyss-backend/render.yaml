@@ -1,7 +1,7 @@
 services:
   - type: web
     name: odyss-backend
-    env: python
+    env: python311
     region: oregon
     plan: free
     branch: main
