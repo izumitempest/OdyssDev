@@ -7,10 +7,14 @@ class Config:
     SECRET_KEY = os.getenv('SECRET_KEY', 'default-secret-key')
     JWT_SECRET_KEY = os.getenv('JWT_SECRET_KEY', 'default-jwt-secret-key')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    SQLALCHEMY_POOL_SIZE = 10
+    SQLALCHEMY_POOL_SIZE = 5
     SQLALCHEMY_POOL_TIMEOUT = 20
-    SQLALCHEMY_POOL_RECYCLE = 3600
+    SQLALCHEMY_POOL_RECYCLE = 1800
     SQLALCHEMY_MAX_OVERFLOW = 20
+    SQLALCHEMY_ENGINE_OPTIONS = {
+        "connect_args": {"sslmode": "require"},
+        "pool_pre_ping": True  # Test connections before use
+    }
 
 class DevelopmentConfig(Config):
     DEBUG = True
