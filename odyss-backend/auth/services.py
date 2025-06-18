@@ -8,7 +8,7 @@ class AuthService:
     @staticmethod
     def login(email, password):
         with session_scope() as session:
-            user = session.query(User).filter_by(email=email).first()
+            user = session.query(User).filter_by(email=email).first()           
             if user and user.check_password(password):
                 access_token = create_access_token(identity=user.id)
                 return {"access_token": access_token, "user": user.to_dict()}, 200
