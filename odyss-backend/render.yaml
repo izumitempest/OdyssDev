@@ -7,7 +7,7 @@ services:
     branch: main
     repo: https://github.com/Izumitempest/OdyssDev
     buildCommand: |
-      pip install -r requirements
+      pip install -r requirements/base.txt
     startCommand: gunicorn -w 4 -b 0.0.0.0:5000 "app:create_app('production')"
     envVars:
       - key: FLASK_ENV
