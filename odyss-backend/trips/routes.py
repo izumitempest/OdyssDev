@@ -1,13 +1,13 @@
 from flask import Blueprint, request, jsonify
 from trips.services import TripService
 from trips.schemas import TripCreateSchema
-from auth.guards import login_required
+from auth.guards import jwt_auth_required
 from core.exceptions import OdyssException
 
 trips_bp = Blueprint("trips", __name__)
 
 @trips_bp.route("", methods=["POST"])
-@login_required
+@jwt_auth_required()
 def create_trip(current_user):
     try:
         schema = TripCreateSchema()
