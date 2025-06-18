@@ -4,3 +4,6 @@ flask-jwt-extended
 psycopg2-binary
 python-dotenv
 marshmallow
+pytest
+factory_boy
+faker==37.3.0
