@@ -2,7 +2,7 @@ from flask import Flask
 from flask_jwt_extended import JWTManager
 from app.extensions import db
 from core.database import init_db
-from config import config
+from .config import config
 from api.v1.routes import api_v1_bp
 from models.user import User
 from models.role import Role
