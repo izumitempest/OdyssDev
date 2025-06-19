@@ -24,3 +24,5 @@ def jwt_auth_required():
             return f(current_user=user, *args, **kwargs)
         return wrapper
     return decorated_function
+
+login_required = jwt_auth_required()
